@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { API_ROUTES, API_URL } from "../../appconstants";
+import { useNavigate } from "react-router-dom";
 
 const People = () => {
   const [data, setData] = useState([]);
-  const {PEOPLE }  = API_ROUTES
+  const { PEOPLE } = API_ROUTES;
+  let navigate = useNavigate();
 
   const fetchPeople = () => {
     fetch(`${API_URL}${PEOPLE}`)
@@ -12,33 +14,42 @@ const People = () => {
   };
 
   useEffect(() => {
-    fetchPeople();
+    let mounted = true;
+    mounted && fetchPeople();
+
+    return () => (mounted = false);
   }, []);
 
- const handlePlanets = () =>{
+  // handles the route to people detail page
+  const handleClick = (index) => {
+    navigate(`/details/${index}`);
+  };
 
- }
   return (
     <div className="container">
-      <h1>People List</h1> <button onClick = {handlePlanets}>Planets</button>
+      <h1>People List</h1>
       <table>
         <thead>
           <tr>
-          <th>Name</th>
+            <th>Name</th>
             <th>Height</th>
             <th>Hair Color</th>
             <th>Birth Year</th>
             <th>Gender</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {data.map((item, index) => (
             <tr key={item.name}>
               <td>{item.name}</td>
               <td>{item.height}</td>
               <td>{item.hair_color}</td>
               <td>{item.birth_year}</td>
               <td>{item.gender}</td>
+              <td>
+                <button onClick={() => handleClick(index + 1)}> Details</button>
+              </td>
             </tr>
           ))}
         </tbody>

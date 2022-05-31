@@ -8,16 +8,14 @@ import Planets from "./pages/planets";
 function App() {
   return (
     <div>
-       <Navbar/>
+      <Navbar />
       <Routes>
-       
         <Route path="/" element={<People />} />
-        <Route path="detail" element={<PeopleDetail />} />
+        <Route path="details/:id" element={<PeopleDetail />} />
         <Route path="planets" element={<Planets />} />
       </Routes>
     </div>
 
-    // <People />
   );
 }
 
